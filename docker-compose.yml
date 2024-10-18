@@ -1,0 +1,20 @@
+version: '3'
+services:
+  api:
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: MOTOR_INSURANCE_WEBSITE
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: MOTOR_INSURANCE_WEBSITE
+    ports:
+      - '5432:5432'
