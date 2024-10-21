@@ -1,7 +1,8 @@
-version: '3'
+version: '3.8'
 services:
   api:
     build: .
+    container_name: motor-insurance-api
     ports:
       - "3001:3001"
     environment:
@@ -10,11 +11,30 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: MOTOR_INSURANCE_WEBSITE
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    networks:
+      - motor-network
+
   db:
-    image: postgres
+    image: postgres:13-alpine
+    container_name: motor-insurance-db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: MOTOR_INSURANCE_WEBSITE
     ports:
-      - '5432:5432'
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - motor-network
+
+volumes:
+  db-data:
+
+networks:
+  motor-network:
+    driver: bridge
